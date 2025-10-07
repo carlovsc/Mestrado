@@ -1,0 +1,30 @@
+# analise_pln.py
+import spacy
+from tabulate import tabulate
+
+nlp = spacy.load("pt_core_news_sm")
+
+def analisar_frase(frase):
+    doc = nlp(frase)
+    resultados = []
+    for token in doc:
+        resultados.append([
+            token.text,
+            token.idx,
+            token.idx + len(token.text),
+            token.lemma_,
+            token.pos_,
+            token.morph
+        ])
+    print(f"\nFrase: {frase}\n")
+    print(tabulate(resultados, headers=["Token", "Início", "Fim", "Lemma", "POS", "Morfologia"], tablefmt="grid"))
+
+if __name__ == "__main__":
+    frases = [
+        "Os engenheiros desenvolveram uma nova rede óptica.",
+        "O sistema de inteligência artificial foi testado com sucesso.",
+        "As máquinas aprenderão rapidamente com os dados."
+    ]
+    for f in frases:
+        analisar_frase(f)
+
